@@ -162,8 +162,8 @@ INSERT INTO empTbl VALUES(N'이주임',N'윤차장','3333-1-1');
 
 
 
-
-
+SELECT * FROM emptbl;
+SELECT A.emp AS '부하직원'FROM emptbl A;
 
 SELECT A.emp AS '부하직원' , B.emp AS '직속상관', B.empTel AS '직속상관연락처'
    FROM empTbl A
@@ -177,6 +177,76 @@ SELECT name, CONCAT(mobile1, mobile2) AS '전화번호' FROM userTBL
 
 SELECT name, CONCAT(mobile1, mobile2) AS '전화번호' FROM userTBL
    WHERE name IN ( SELECT name FROM userTBL WHERE mobile1 IS NULL) ;
+   
+
+DROP PROCEDURE IF EXISTS ifProc; -- 기존에 만든적이 있다면 삭제
+DELIMITER $$
+CREATE PROCEDURE ifProc()
+BEGIN
+  DECLARE var1 INT;  -- var1 변수선언
+  SET var1 = 100;  -- 변수에 값 대입
+
+  IF var1 = 100 THEN  -- 만약 @var1이 100이라면,
+	SELECT '100입니다.';
+  ELSE
+    SELECT '100이 아닙니다.';
+  END IF;
+END $$
+DELIMITER ;
+CALL ifProc();
+
+
+DROP PROCEDURE IF EXISTS ifProc3; 
+DELIMITER $$
+CREATE PROCEDURE ifProc3()
+BEGIN
+    DECLARE point INT ;
+    DECLARE credit CHAR(1);
+    SET point = 77 ;
+    
+    IF point >= 90 THEN
+		SET credit = 'A';
+    ELSEIF point >= 80 THEN
+		SET credit = 'B';
+    ELSEIF point >= 70 THEN
+		SET credit = 'C';
+    ELSEIF point >= 60 THEN
+		SET credit = 'D';
+    ELSE
+		SET credit = 'F';
+    END IF;
+    SELECT CONCAT('취득점수==>', point), CONCAT('학점==>', credit);
+END $$
+DELIMITER ;
+CALL ifProc3();
+
+
+
+DROP PROCEDURE IF EXISTS caseProc; 
+DELIMITER $$
+CREATE PROCEDURE caseProc()
+BEGIN
+    DECLARE point INT ;
+    DECLARE credit CHAR(1);
+    SET point = 77 ;
+    
+    CASE 
+		WHEN point >= 90 THEN
+			SET credit = 'A';
+		WHEN point >= 80 THEN
+			SET credit = 'B';
+		WHEN point >= 70 THEN
+			SET credit = 'C';
+		WHEN point >= 60 THEN
+			SET credit = 'D';
+		ELSE
+			SET credit = 'F';
+    END CASE;
+    SELECT CONCAT('취득점수==>', point), CONCAT('학점==>', credit);
+END $$
+DELIMITER ;
+CALL caseProc();
+
 
 
 
